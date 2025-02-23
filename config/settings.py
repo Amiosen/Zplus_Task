@@ -21,6 +21,7 @@ ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 # Application definition
 
 LOCAL_APPS = [
+    "products",
 ]
 
 THIRD_PARTY_APPS = [
