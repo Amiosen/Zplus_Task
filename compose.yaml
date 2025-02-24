@@ -39,7 +39,7 @@ services:
   celery:
     build: .
     container_name:  celery_worker
-    command:  celery -A crawler worker --loglevel=info
+    command:  celery -A config worker --loglevel=info
     depends_on:
       - web
       - redis
@@ -49,8 +49,9 @@ services:
   celery_beat:
     build: .
     container_name: celery_beat
-    command: celery -A crawler beat --loglevel=info
+    command: celery -A config beat --loglevel=info
     depends_on:
+      - db
       - celery
       - redis
 

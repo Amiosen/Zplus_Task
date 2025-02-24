@@ -146,7 +146,7 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BEAT_SCHEDULE = {
     'scrape-every-two-hours': {
         'task': 'crawler.tasks.run_scraper',
-        'schedule': crontab(minute='*/3'),
+        'schedule': crontab(hour='*/2'),
     },
 }
 LOGGING = {
