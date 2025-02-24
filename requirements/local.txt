@@ -1,0 +1,5 @@
+-r base.txt
+
+pytest==7.2.0
+pytest-django==4.5.2
+Coverage==7.5.0
