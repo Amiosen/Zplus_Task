@@ -19,22 +19,5 @@ services:
     ports:
       - 6379:6379
   
-  celery:
-    build:  .
-    container_name:  celery_worker
-    command:  celery -A myproject worker --loglevel=info
-    depends_on:
-      - redis
-    environment:
-      - CELERY_BROKER_URL=redis://redis:6379/0
-  
-  celery_beat:
-    build: .
-    container_name: celery_beat
-    command: celery -A myproject beat --loglevel=info
-    depends_on:
-      - celery
-      - redis
-
 volumes:
   postgres_data:

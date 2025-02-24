@@ -2,6 +2,7 @@
 import os, dj_database_url
 from dotenv import load_dotenv
 from pathlib import Path
+from celery.schedules import crontab
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +30,7 @@ THIRD_PARTY_APPS = [
     "debug_toolbar",
     "drf_spectacular",
     "corsheaders",
-    "celery"
+    "django_celery_beat",
 ]
 
 INSTALLED_APPS = [
@@ -131,3 +132,33 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 10,
 }
 
+#Celery
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+CELERY_BEAT_SCHEDULE = {
+    'scrape-every-two-hours': {
+        'task': 'crawler.tasks.run_scraper',
+        'schedule': crontab(minute='*/3'),
+    },
+}
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}
