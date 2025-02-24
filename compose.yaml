@@ -37,9 +37,9 @@ services:
       - CELERY_BROKER_URL=redis://redis:6379/0
   
   celery:
-    build:  .
+    build: .
     container_name:  celery_worker
-    command:  celery -A myproject worker --loglevel=info
+    command:  celery -A crawler worker --loglevel=info
     depends_on:
       - web
       - redis
@@ -49,7 +49,7 @@ services:
   celery_beat:
     build: .
     container_name: celery_beat
-    command: celery -A myproject beat --loglevel=info
+    command: celery -A crawler beat --loglevel=info
     depends_on:
       - celery
       - redis
